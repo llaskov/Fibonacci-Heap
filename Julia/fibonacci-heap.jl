@@ -311,6 +311,14 @@ function decreasekey!(fheap::FibonacciHeap{T}, node::FHeapNode{T}, key::T) where
     end
 end
 
+# delete a node
+function delete!(fheap::FibonacciHeap{T}, node::FHeapNode{T}) where T
+    min = minimum(fheap)                    # find the current minimum
+    min -= 1                                # decrease the current minimum
+    decreasekey!(fheap, node, min)          # make the key of the node to delete the minimum
+    extractmin!(fheap)                      # extract the minimum from the Fibonacci heap
+end
+
 # print a Fibonacci heap data structure
 function Base.print(fheap::FibonacciHeap{T}) where T
     println("Size of the heap: ", size(fheap))
@@ -346,4 +354,9 @@ println("Node key: ", node.key)
 key = node.key - 10
 println("New key: ", key)
 decreasekey!(fheap, node, key)
+print(fheap)
+
+node = fheap.min.next
+println("Will delete node key: ", node.key)
+delete!(fheap, node)
 print(fheap)
